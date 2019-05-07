@@ -36,6 +36,7 @@ class App extends Component {
             columns={columns}
             rows={Data.routes}
             format={this.formatValue}
+            perPage={25}
           />
         </section>
       </div>

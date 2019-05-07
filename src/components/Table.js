@@ -4,16 +4,38 @@ import Data from '../data';
 class Table extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      page: 0,
+    };
+
+    this.nextPage = this.nextPage.bind(this);
+    this.previousPage = this.previousPage.bind(this);
+  }
+
+  previousPage(e) {
+    this.setState({
+      page: this.state.page - 1
+    });
+  }
+
+  nextPage(e) {
+    this.setState({
+      page: this.state.page + 1
+    });
   }
 
   render() {
+    const pageStart = this.state.page * this.props.perPage;
+    const pageEnd = pageStart + this.props.perPage;
+
     const headerNames = this.props.columns.map(col => {
       return (
-        <th key={col.name}>{col.property}</th>
+        <th key={col.name}>{col.name}</th>
       );
     });
 
-    const bodyRows = this.props.rows.map(row => {
+    const bodyRows = this.props.rows.slice(pageStart, pageEnd).map(row => {
       const rows = this.props.columns.map(col => {
         const value = row[col.property];
         return (
@@ -31,16 +53,31 @@ class Table extends Component {
     });
 
     return (
-      <table className={this.props.className}>
-        <thead>
-          <tr>
-            { headerNames }
-          </tr>
-        </thead>
-        <tbody>
-          { bodyRows }
-        </tbody>
-      </table>
+      <div>
+        <table className={this.props.className}>
+          <thead>
+            <tr>
+              { headerNames }
+            </tr>
+          </thead>
+          <tbody>
+            { bodyRows }
+          </tbody>
+        </table>
+        <div className="pagination">
+          <p>Showing {pageStart + 1}-{pageEnd} of {this.props.rows.length} total routes</p>
+          <p>
+            <button
+              disabled={pageStart === 0}
+              onClick={this.previousPage}
+            >Previous Page</button>
+            <button
+              disabled={pageEnd === this.props.rows.length}
+              onClick={this.nextPage}
+            >Next Page</button>
+          </p>
+        </div>
+      </div>
     );
   }
 }
