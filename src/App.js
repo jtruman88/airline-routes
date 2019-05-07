@@ -12,13 +12,26 @@ class App extends Component {
           <h1 className="title">Airline Routes</h1>
         </header>
         <section>
-          {Data.routes.map((route, i) => {
-            return (
-              <li key={i}>
-                Airline - {route.airline}, Source - {route.src}, Destination - {route.dest}
-              </li>
-            );
-          })}
+          <table className="routes-table">
+            <thead>
+              <tr>
+                <th>Airline</th>
+                <th>Sourse Airport</th>
+                <th>Destination Airport</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Data.routes.map((route, i) => {
+                return (
+                  <tr key={i}>
+                    <td>{Data.getAirlineById(route.airline)}</td>
+                    <td>{Data.getAirportByCode(route.src)}</td>
+                    <td>{Data.getAirportByCode(route.dest)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </section>
       </div>
     );
