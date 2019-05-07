@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Data from '../data';
 
 class Table extends Component {
   constructor(props) {
